@@ -43,4 +43,28 @@ pipeline{
             }
         }
     }
+    post {
+        always { 
+            mail to: 'kharel1248@gmail.com',
+            subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) status",
+            body: "Please go to ${BUILD_URL} and verify the build"
+        }
+        success {
+            emailext(
+                to: 'kharel1248@gmail.com',
+                subject: "Jenkins Build ${JOB_NAME} #${BUILD_NUMBER} Success",
+                body: """The build was successful.
+                Check the job at ${BUILD_URL}""",
+            
+            )
+        }
+        failure {
+            emailext(
+                to: 'kharel1248@gmail.com',
+                subject: "Jenkins Build ${JOB_NAME} #${BUILD_NUMBER} Failed",
+                body: """The build failed. Please check the logs at ${BUILD_URL}""",
+                
+            )
+        }
+    }
 }
