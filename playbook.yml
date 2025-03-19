@@ -1,0 +1,25 @@
+---
+- name: Deploying the application to the web server
+  hosts: web
+  vars:
+    dockerImage: ravikharel/nginx
+  tasks:
+    - name: Pulling the docker image to the web server
+      command: "docker pull {{ dockerImage }}:{{ number }}"
+
+    - name: Copying the .env file to the web server
+      copy:
+        src: "{{ workspace }}/.env"
+        dest: /home/vagrant/.env
+
+    - name: Copying the docker-compose file to the web server
+      copy:
+        src: "{{ workspace }}/docker-compose.yml"
+        dest: /home/vagrant/docker-compose.yml
+
+    - name: Running the docker compose file
+      community.docker.docker_compose_v2:
+        project_src: /home/vagrant
+        env: 
+          imageName: "{{ dockerImage }}"
+          number: "{{ number }}"

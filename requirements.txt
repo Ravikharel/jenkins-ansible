@@ -1,0 +1,3 @@
+flask
+flask-mysql-connector
+setuptools>=70.0.0
