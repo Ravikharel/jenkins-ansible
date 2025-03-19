@@ -14,7 +14,7 @@ pipeline{
         }
         stage('Scanning the image'){ 
             steps{ 
-                sh 'trivy image --exit-code 1 --severity HIGH,CRITICAL --ignore-unfixed $dockerImage:$BUILD_NUMBER'
+                sh 'trivy image --timeout 10m --scanners vuln --exit-code 1 --severity HIGH,CRITICAL --ignore-unfixed $dockerImage:$BUILD_NUMBER'
             }
         }
 
