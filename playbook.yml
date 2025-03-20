@@ -18,8 +18,9 @@
         dest: /home/vagrant/docker-compose.yml
 
     - name: Running the docker compose file
-      community.docker.docker_compose_v2:
-        project_src: /home/vagrant
-        env: 
-          imageName: "{{ dockerImage }}"
-          number: "{{ number }}"
+      command: docker compose up -d
+      args:
+        chdir: /home/vagrant
+      environment:
+        imageName: "{{ dockerImage }}"
+        number: "{{ number }}"
